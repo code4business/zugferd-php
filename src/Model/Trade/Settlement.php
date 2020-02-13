@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation\XmlElement;
 use JMS\Serializer\Annotation\XmlList;
 
 /**
- * @AccessorOrder("custom", custom = {"paymentReference", "currency", "paymentMeans", "tradeTaxes", "billingPeriod", "allowanceCharges", "paymentTerms", "monetarySummation"})
+ * @AccessorOrder("custom", custom = {"paymentReference", "currency", "paymentMeans", "tradeTaxes", "billingPeriod", "allowanceCharges", "logisticsServiceCharge", "paymentTerms", "monetarySummation"})
  */
 class Settlement
 {
@@ -59,6 +59,14 @@ class Settlement
      * @SerializedName("BillingSpecifiedPeriod")
      */
     private $billingPeriod;
+
+    /**
+     * @var SpecifiedLogisticsServiceCharge
+     * @Type("Easybill\ZUGFeRD\Model\Trade\SpecifiedLogisticsServiceCharge")
+     * @XmlElement(cdata=false, namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12")
+     * @SerializedName("SpecifiedLogisticsServiceCharge")
+     */
+    private $logisticsServiceCharge;
 
     /**
      * @var MonetarySummation
@@ -177,6 +185,24 @@ class Settlement
     public function addAllowanceCharge(AllowanceCharge $allowanceCharge)
     {
         $this->allowanceCharges[] = $allowanceCharge;
+        return $this;
+    }
+
+    /**
+     * @return SpecifiedLogisticsServiceCharge
+     */
+    public function getLogisticsServiceCharge(): SpecifiedLogisticsServiceCharge
+    {
+        return $this->logisticsServiceCharge;
+    }
+
+    /**
+     * @param SpecifiedLogisticsServiceCharge $logisticsServiceCharge
+     * @return self
+     */
+    public function setLogisticsServiceCharge(SpecifiedLogisticsServiceCharge $logisticsServiceCharge)
+    {
+        $this->logisticsServiceCharge = $logisticsServiceCharge;
         return $this;
     }
 
