@@ -11,7 +11,7 @@ The recommended way of installing this library is using [Composer](http://getcom
 Add this repository to your composer information using the following command
 
 ```bash
-composer require easybill/zugferd-php
+composer require code4business/zugferd-php
 ```
 
 ## Usage
