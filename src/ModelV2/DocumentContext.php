@@ -25,6 +25,19 @@ class DocumentContext
 
     public function __construct($type)
     {
-        $this->type = new ContextParameterID('urn:cen.eu:en16931:2017');
+        switch ($type)
+        {
+            case \Easybill\ZUGFeRD\ModelV2\Invoice::TYPE_BASIC:
+                $additionalType = '#compliant#urn:zugferd.de:2p0:basic';
+                break;
+            case \Easybill\ZUGFeRD\ModelV2\Invoice::TYPE_EXTENDED:
+                $additionalType = '#conformant#urn:zugferd.de:2p0:extended';
+                break;
+            default:
+                $additionalType = '';
+                break;
+        }
+
+        $this->type = new ContextParameterID("urn:cen.eu:en16931:2017{$additionalType}");
     }
 }

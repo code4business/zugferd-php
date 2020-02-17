@@ -15,6 +15,13 @@ class Document
      */
     private $id = '';
 
+    /**
+     * @var string
+     * @Type("string")
+     * @XmlElement(cdata=false,namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100")
+     * @SerializedName("Name")
+     */
+    private $name = '';
 
     /**
      * @var string
@@ -58,6 +65,23 @@ class Document
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Document
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
     /**
      * @return string
