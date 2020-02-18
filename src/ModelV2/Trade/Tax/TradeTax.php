@@ -48,99 +48,94 @@ class TradeTax
      */
     private $percent;
 
-
-
-    /**
-     * @return Amount
-     */
-    public function getCalculatedAmount()
-    {
-        return $this->calculatedAmount;
-    }
-
     /**
      * @param Amount $calculatedAmount
-     * @return self
+     * @return TradeTax
      */
-    public function setCalculatedAmount($calculatedAmount)
+    public function setCalculatedAmount(Amount $calculatedAmount): TradeTax
     {
         $this->calculatedAmount = $calculatedAmount;
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
      * @param string $code
-     * @return self
+     * @return TradeTax
      */
-    public function setCode($code)
+    public function setCode(string $code): TradeTax
     {
         $this->code = $code;
         return $this;
     }
 
     /**
-     * @return null|Amount
+     * @param Amount $basisAmount
+     * @return TradeTax
      */
-    public function getBasisAmount()
+    public function setBasisAmount(Amount $basisAmount): TradeTax
+    {
+        $this->basisAmount = $basisAmount;
+        return $this;
+    }
+
+    /**
+     * @param string $category
+     * @return TradeTax
+     */
+    public function setCategory(string $category): TradeTax
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * @param string $percent
+     * @return TradeTax
+     */
+    public function setPercent($percent): TradeTax
+    {
+        $this->percent = number_format($percent, 2, '.', '');
+        return $this;
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getCalculatedAmount(): Amount
+    {
+        return $this->calculatedAmount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getBasisAmount(): Amount
     {
         return $this->basisAmount;
     }
 
     /**
-     * @param Amount $basisAmount
-     *
-     * @return self
-     */
-    public function setBasisAmount($basisAmount)
-    {
-        $this->basisAmount = $basisAmount;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
-    public function getPercent()
-    {
-        return $this->percent;
-    }
-
-    /**
-     * @param string $percent
-     * @return self
-     */
-    public function setPercent($percent)
-    {
-        $this->percent = number_format($percent, 2, '.', '');
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCategory()
+    public function getCategory(): string
     {
         return $this->category;
     }
 
     /**
-     * @param string $category
-     * @return self
+     * @return string
      */
-    public function setCategory($category)
+    public function getPercent(): string
     {
-        $this->category = $category;
-        return $this;
+        return $this->percent;
     }
 
 }

@@ -1,4 +1,5 @@
-<?php namespace Easybill\ZUGFeRD\ModelV2;
+<?php
+namespace Easybill\ZUGFeRD\ModelV2;
 
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
@@ -66,84 +67,92 @@ class Address
     }
 
     /**
+     * @param string $postcode
+     * @return Address
+     */
+    public function setPostcode(string $postcode): Address
+    {
+        $this->postcode = $postcode;
+        return $this;
+    }
+
+    /**
+     * @param string $lineOne
+     * @return Address
+     */
+    public function setLineOne(string $lineOne): Address
+    {
+        $this->lineOne = $lineOne;
+        return $this;
+    }
+
+    /**
+     * @param string|null $lineTwo
+     * @return Address
+     */
+    public function setLineTwo(?string $lineTwo): Address
+    {
+        $this->lineTwo = $lineTwo;
+        return $this;
+    }
+
+    /**
+     * @param string $city
+     * @return Address
+     */
+    public function setCity(string $city): Address
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * @param string $countryCode
+     * @return Address
+     */
+    public function setCountryCode(string $countryCode): Address
+    {
+        $this->countryCode = $countryCode;
+        return $this;
+    }
+
+    /**
      * @return string
      */
-    public function getPostcode()
+    public function getPostcode(): string
     {
         return $this->postcode;
     }
 
     /**
-     * @param string $postcode
-     */
-    public function setPostcode($postcode)
-    {
-        $this->postcode = $postcode;
-    }
-
-    /**
      * @return string
      */
-    public function getLineOne()
+    public function getLineOne(): string
     {
         return $this->lineOne;
     }
 
     /**
-     * @param string $lineOne
+     * @return string|null
      */
-    public function setLineOne($lineOne)
-    {
-        $this->lineOne = $lineOne;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLineTwo()
+    public function getLineTwo(): ?string
     {
         return $this->lineTwo;
     }
 
     /**
-     * @param string $lineTwo
-     */
-    public function setLineTwo($lineTwo)
-    {
-        $this->lineTwo = $lineTwo;
-    }
-
-    /**
      * @return string
      */
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
     /**
-     * @param string $city
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-    }
-
-    /**
      * @return string
      */
-    public function getCountryCode()
+    public function getCountryCode(): string
     {
         return $this->countryCode;
     }
-
-    /**
-     * @param string $countryCode
-     */
-    public function setCountryCode($countryCode)
-    {
-        $this->countryCode = $countryCode;
-    }
-
-
 }

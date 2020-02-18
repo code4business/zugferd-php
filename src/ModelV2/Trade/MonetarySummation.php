@@ -93,146 +93,139 @@ class MonetarySummation
 
 
     /**
-     * MonetarySummation constructor.
-     *
-     * @param double $lineTotal
-     * @param double $chargeTotal
-     * @param double $allowanceTotal
-     * @param double $taxBasisTotal
-     * @param double $taxTotal
-     * @param double $grandTotal
-     * @param double $duePayableAmount
      * @param string $currency
      */
-    public function __construct($lineTotal,
-                                $chargeTotal,
-                                $allowanceTotal,
-                                $taxBasisTotal,
-                                $taxTotal,
-                                $grandTotal,
-                                $duePayableAmount,
-                                $currency = 'EUR')
+    public function __construct($currency = 'EUR')
     {
-        $this->lineTotal = new Amount($lineTotal, $currency);
-        $this->chargeTotal = new Amount($chargeTotal, $currency);
-        $this->allowanceTotal = new Amount($allowanceTotal, $currency);
-        $this->taxBasisTotal = new Amount($taxBasisTotal, $currency);
-        $this->taxTotal = new Amount($taxTotal, $currency);
-        $this->grandTotal = new Amount($grandTotal, $currency);
-        $this->duePayableAmount = new Amount($duePayableAmount,$currency);
         $this->currency = $currency;
+    }
+
+    /**
+     * @param Amount|float $lineTotal
+     * @return MonetarySummation
+     */
+    public function setLineTotal($lineTotal): MonetarySummation
+    {
+        $this->lineTotal = $this->prepareAmount($lineTotal);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $chargeTotal
+     * @return MonetarySummation
+     */
+    public function setChargeTotal($chargeTotal): MonetarySummation
+    {
+        $this->chargeTotal = $this->prepareAmount($chargeTotal);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $allowanceTotal
+     * @return MonetarySummation
+     */
+    public function setAllowanceTotal($allowanceTotal): MonetarySummation
+    {
+        $this->allowanceTotal = $this->prepareAmount($allowanceTotal);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $taxBasisTotal
+     * @return MonetarySummation
+     */
+    public function setTaxBasisTotal($taxBasisTotal): MonetarySummation
+    {
+        $this->taxBasisTotal = $this->prepareAmount($taxBasisTotal);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $taxTotal
+     * @return MonetarySummation
+     */
+    public function setTaxTotal($taxTotal): MonetarySummation
+    {
+        $this->taxTotal = $this->prepareAmount($taxTotal);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $grandTotal
+     * @return MonetarySummation
+     */
+    public function setGrandTotal($grandTotal): MonetarySummation
+    {
+        $this->grandTotal = $this->prepareAmount($grandTotal);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $duePayableAmount
+     * @return MonetarySummation
+     */
+    public function setDuePayableAmount($duePayableAmount): MonetarySummation
+    {
+        $this->duePayableAmount = $this->prepareAmount($duePayableAmount);
+        return $this;
+    }
+
+    /**
+     * @param Amount|float $totalPrepaidAmount
+     * @return MonetarySummation
+     */
+    public function setTotalPrepaidAmount($totalPrepaidAmount)
+    {
+        $this->totalPrepaidAmount = $this->prepareAmount($totalPrepaidAmount);
+        return $this;
     }
 
     /**
      * @return Amount
      */
-    public function getLineTotal()
+    public function getLineTotal(): Amount
     {
         return $this->lineTotal;
     }
 
     /**
-     * @param Amount $lineTotal
-     */
-    public function setLineTotal($lineTotal)
-    {
-        $this->lineTotal = $lineTotal;
-    }
-
-    /**
      * @return Amount
      */
-    public function getChargeTotal()
+    public function getChargeTotal(): Amount
     {
         return $this->chargeTotal;
     }
 
     /**
-     * @param Amount $chargeTotal
-     */
-    public function setChargeTotal($chargeTotal)
-    {
-        $this->chargeTotal = $chargeTotal;
-    }
-
-    /**
      * @return Amount
      */
-    public function getAllowanceTotal()
+    public function getAllowanceTotal(): Amount
     {
         return $this->allowanceTotal;
     }
 
     /**
-     * @param Amount $allowanceTotal
-     */
-    public function setAllowanceTotal($allowanceTotal)
-    {
-        $this->allowanceTotal = $allowanceTotal;
-    }
-
-    /**
      * @return Amount
      */
-    public function getTaxBasisTotal()
+    public function getTaxBasisTotal(): Amount
     {
         return $this->taxBasisTotal;
     }
 
     /**
-     * @param Amount $taxBasisTotal
-     */
-    public function setTaxBasisTotal($taxBasisTotal)
-    {
-        $this->taxBasisTotal = $taxBasisTotal;
-    }
-
-    /**
      * @return Amount
      */
-    public function getTaxTotal()
+    public function getTaxTotal(): Amount
     {
         return $this->taxTotal;
     }
 
     /**
-     * @param Amount $taxTotal
-     */
-    public function setTaxTotal($taxTotal)
-    {
-        $this->taxTotal = $taxTotal;
-    }
-
-    /**
      * @return Amount
      */
-    public function getGrandTotal()
+    public function getGrandTotal(): Amount
     {
         return $this->grandTotal;
-    }
-
-    /**
-     * @param Amount $grandTotal
-     */
-    public function setGrandTotal($grandTotal)
-    {
-        $this->grandTotal = $grandTotal;
-    }
-
-    /**
-     * @return Amount
-     */
-    public function getDuePayableAmount()
-    {
-        return $this->grandTotal;
-    }
-
-    /**
-     * @param Amount $duePayableAmount
-     */
-    public function setDuePayableAmount($duePayableAmount)
-    {
-        $this->duePayableAmount = $duePayableAmount;
     }
 
     /**
@@ -244,13 +237,11 @@ class MonetarySummation
     }
 
     /**
-     * @param Amount|float $totalPrepaidAmount
-     * @return MonetarySummation
+     * @return Amount
      */
-    public function setTotalPrepaidAmount($totalPrepaidAmount)
+    public function getDuePayableAmount(): Amount
     {
-        $this->totalPrepaidAmount = $this->prepareAmount($totalPrepaidAmount);
-        return $this;
+        return $this->duePayableAmount;
     }
 
     /**
