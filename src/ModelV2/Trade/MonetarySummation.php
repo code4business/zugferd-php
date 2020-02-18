@@ -3,10 +3,15 @@
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation\Exclude;
 
 class MonetarySummation
 {
-
+    /**
+     * @var string
+     * @Exclude
+     */
+    private $currency;
     /**
      * Total amount of all invoice positions.
      *
@@ -115,6 +120,7 @@ class MonetarySummation
         $this->taxTotal = new Amount($taxTotal, $currency);
         $this->grandTotal = new Amount($grandTotal, $currency);
         $this->duePayableAmount = new Amount($duePayableAmount,$currency);
+        $this->currency = $currency;
     }
 
     /**
@@ -227,6 +233,40 @@ class MonetarySummation
     public function setDuePayableAmount($duePayableAmount)
     {
         $this->duePayableAmount = $duePayableAmount;
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getTotalPrepaidAmount(): Amount
+    {
+        return $this->totalPrepaidAmount;
+    }
+
+    /**
+     * @param Amount|float $totalPrepaidAmount
+     * @return MonetarySummation
+     */
+    public function setTotalPrepaidAmount($totalPrepaidAmount)
+    {
+        $this->totalPrepaidAmount = $this->prepareAmount($totalPrepaidAmount);
+        return $this;
+    }
+
+    /**
+     * @param $amount
+     * @return Amount
+     */
+    private function prepareAmount($amount): Amount
+    {
+        if ($amount instanceof Amount)
+        {
+            return $amount;
+        }
+        else
+        {
+            return new Amount($amount, $this->currency);
+        }
     }
 
 }
