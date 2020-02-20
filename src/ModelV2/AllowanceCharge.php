@@ -11,6 +11,11 @@ use JMS\Serializer\Annotation as JMS;
  */
 class AllowanceCharge
 {
+    /**
+     * @var string
+     * @JMS\Exclude
+     */
+    private $currency;
 
     /**
      * @var Indicator
@@ -24,9 +29,25 @@ class AllowanceCharge
      * @var Amount
      * @JMS\Type("Easybill\ZUGFeRD\ModelV2\Trade\Amount")
      * @JMS\XmlElement(cdata=false, namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100")
+     * @JMS\SerializedName("BasisAmount")
+     */
+    private $basisAmount;
+
+    /**
+     * @var Amount
+     * @JMS\Type("Easybill\ZUGFeRD\ModelV2\Trade\Amount")
+     * @JMS\XmlElement(cdata=false, namespace="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100")
      * @JMS\SerializedName("ActualAmount")
      */
     private $actualAmount;
+
+    /**
+     * @var string
+     * @JMS\Type("string")
+     * @JMS\XmlElement(cdata = false, namespace = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100")
+     * @JMS\SerializedName("ReasonCode")
+     */
+    private $reasonCode;
 
     /**
      * @var string
@@ -44,68 +65,55 @@ class AllowanceCharge
     private $categoryTradeTaxes;
 
     /**
-     * AllowanceCharge constructor.
-     *
-     * @param bool $indicator
-     * @param double $actualAmount
      * @param string $currency
-     * @param bool $isSum
      */
-    public function __construct(bool $indicator, float $actualAmount, string $currency = 'EUR', bool $isSum = false)
+    public function __construct(string $currency = 'EUR')
+    {
+        $this->currency = $currency;
+    }
+
+    /**
+     * @param bool $indicator
+     * @return AllowanceCharge
+     */
+    public function setIndicator(bool $indicator): AllowanceCharge
     {
         $this->indicator = new Indicator($indicator);
-        $this->actualAmount = new Amount($actualAmount, $currency, $isSum);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIndicator()
-    {
-        return $this->indicator->getIndicator();
-    }
-
-    /**
-     * @param bool $indicator
-     *
-     * @return self
-     */
-    public function setIndicator($indicator)
-    {
-        $this->indicator->setIndicator($indicator);
         return $this;
     }
 
     /**
-     * @return Amount
+     * @param Amount $basisAmount
+     * @return AllowanceCharge
      */
-    public function getActualAmount()
+    public function setBasisAmount(Amount $basisAmount): AllowanceCharge
     {
-        return $this->actualAmount;
-    }
-
-    /**
-     * @param Amount $actualAmount
-     *
-     * @return self
-     */
-    public function setActualAmount($actualAmount)
-    {
-        $this->actualAmount = $actualAmount;
+        $this->basisAmount = $basisAmount;
         return $this;
     }
 
     /**
-     * @return null|string
+     * @param Amount|float $actualAmount
+     * @return AllowanceCharge
      */
-    public function getReason()
+    public function setActualAmount($actualAmount): AllowanceCharge
     {
-        return $this->reason;
+        $this->actualAmount = $this->prepareAmount($actualAmount);;
+        return $this;
+    }
+
+    /**
+     * @param string $reasonCode
+     * @return AllowanceCharge
+     */
+    public function setReasonCode(string $reasonCode): AllowanceCharge
+    {
+        $this->reasonCode = $reasonCode;
+        return $this;
     }
 
     /**
      * @param string $reason
-     *
      * @return AllowanceCharge
      */
     public function setReason(string $reason): AllowanceCharge
@@ -115,7 +123,66 @@ class AllowanceCharge
     }
 
     /**
-     * @return array
+     * @param TradeTax $tradeTax
+     *
+     * @return AllowanceCharge
+     */
+    public function addCategoryTradeTax(TradeTax $tradeTax): AllowanceCharge
+    {
+        $this->categoryTradeTaxes[] = $tradeTax;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency(): string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @return Indicator
+     */
+    public function getIndicator(): Indicator
+    {
+        return $this->indicator;
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getBasisAmount(): Amount
+    {
+        return $this->basisAmount;
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getActualAmount(): Amount
+    {
+        return $this->actualAmount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReasonCode(): string
+    {
+        return $this->reasonCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReason(): string
+    {
+        return $this->reason;
+    }
+
+    /**
+     * @return TradeTax[]
      */
     public function getCategoryTradeTaxes(): array
     {
@@ -123,14 +190,19 @@ class AllowanceCharge
     }
 
     /**
-     * @param TradeTax $tradeTax
-     *
-     * @return self
+     * @param $amount
+     * @return Amount
      */
-    public function addCategoryTradeTax(TradeTax $tradeTax)
+    private function prepareAmount($amount): Amount
     {
-        $this->categoryTradeTaxes[] = $tradeTax;
-        return $this;
+        if ($amount instanceof Amount)
+        {
+            return $amount;
+        }
+        else
+        {
+            return new Amount($amount, $this->currency);
+        }
     }
 
 }
